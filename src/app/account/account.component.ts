@@ -1,5 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Account } from '../shared/account/account';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+
+import { AccountService } from '../shared/account.service';
+
 
 @Component({
   selector: 'app-account',
@@ -7,9 +10,15 @@ import { Account } from '../shared/account/account';
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent {
- @Input() account:Account;
- onSetTo(status:string){
-  this.account.status=status;
- }
+@Input() id:number;
+@Input() account;
+
+constructor(private accountService:AccountService){}
+
+onSetTo(status:string)
+{
+  this.accountService.updateStatus(this.id,status);
+  this.accountService.statusUpdated.emit(status);
+}
   
 }
